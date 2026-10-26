@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATM Banking System</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            color: #172033;
+        }
+
+        header {
+            background: #102b50;
+            color: white;
+            text-align: center;
+            padding: 25px 12px;
+        }
+
+        main {
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px #00000012;
+        }
+
+        h2 { margin-top: 0; }
+
+        input, select, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 7px;
+            border: 1px solid #cbd5e1;
+            font-size: 16px;
+        }
+
+        button {
+            background: #1769d2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover { background: #0e4fa8; }
+
+        .balance {
+            background: #e1f5e9;
+            padding: 18px;
+            border-radius: 9px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .message {
+            background: #fff3cd;
+            padding: 14px;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        li { padding: 5px 0; }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>🏦 ATM Banking System</h1>
+    <p>Java Spring Boot College Project</p>
+</header>
+
+<main>
+    <div class="card">
+        <p class="message"
+           th:if="${message != null and !message.isEmpty()}"
+           th:text="${message}"></p>
+
+        <div th:if="${!loggedIn}">
+            <h2>🔐 ATM Login</h2>
+            <p>Enter your four-digit demo PIN.</p>
+
+            <form action="/login" method="post">
+                <input type="password" name="pin"
+                       placeholder="Enter PIN"
+                       inputmode="numeric"
+                       pattern="[0-9]{4}"
+                       maxlength="4" required>
+                <button type="submit">Login</button>
+            </form>
+
+            
+        </div>
+
+        <div th:if="${loggedIn}">
+            <h2>Welcome to Your ATM</h2>
+
+            <div class="balance">
+                Current Balance: ₹<span th:text="${balance}"></span>
+            </div>
+
+            <form action="/atm" method="post">
+                <label for="action">Select ATM service</label>
+
+                <select name="action" id="action" required>
+                    <option value="balance">Check Balance</option>
+                    <option value="withdraw">Withdraw Money</option>
+                    <option value="deposit">Deposit Money</option>
+                    <option value="transfer">Fund Transfer (Demo)</option>
+                    <option value="changePin">Change PIN</option>
+                    <option value="statement">Mini Statement</option>
+                    <option value="mobile">Update Mobile Number</option>
+                </select>
+
+                <input type="number" name="amount"
+                       placeholder="Amount (for deposit/withdraw/transfer)"
+                       min="0.01" step="0.01">
+
+                <input type="text" name="receiver"
+                       placeholder="Receiver account number">
+
+                <input type="password" name="oldPin"
+                       placeholder="Old PIN (for PIN change)"
+                       maxlength="4">
+
+                <input type="password" name="newPin"
+                       placeholder="New 4-digit PIN"
+                       maxlength="4" pattern="[0-9]{4}">
+
+                <input type="password" name="confirmPin"
+                       placeholder="Confirm new PIN"
+                       maxlength="4" pattern="[0-9]{4}">
+
+                <input type="tel" name="newMobile"
+                       placeholder="New 10-digit mobile number"
+                       maxlength="10" pattern="[0-9]{10}">
+
+                <button type="submit">Perform Transaction</button>
+            </form>
+
+            <h2>🧾 Mini Statement</h2>
+
+            <p th:if="${#lists.isEmpty(transactions)}">
+                No transactions yet.
+            </p>
+
+            <ol>
+                <li th:each="transaction : ${transactions}"
+                    th:text="${transaction}"></li>
+            </ol>
+
+            <p>
+                Registered mobile:
+                <strong th:text="${mobile}"></strong>
+            </p>
+
+            <form action="/atm" method="post">
+                <input type="hidden" name="action" value="logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    ATM Banking System | Educational Demonstration Only
+</footer>
+</body>
+</html>
