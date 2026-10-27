@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management | ATM Banking System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #123b70;
+        }
+
+        .balance {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: #e8f1ff;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #123b70;
+        }
+
+        .details {
+            margin: 20px 0;
+        }
+
+        .detail {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button, .back {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 7px;
+            background: #123b70;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .back {
+            background: #475569;
+            margin-left: 6px;
+        }
+
+        .success {
+            padding: 12px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 7px;
+        }
+
+        .error {
+            padding: 12px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Account Management</h1>
+    <p>View and update your demo account profile.</p>
+
+    <div class="balance">
+        <div>Available Balance</div>
+        <div class="amount">
+            ₹<span th:text="${balance}">10000.00</span>
+        </div>
+    </div>
+
+    <div th:if="${success}" class="success"
+         th:text="${success}"></div>
+
+    <div th:if="${error}" class="error"
+         th:text="${error}"></div>
+
+    <h2>Account Details</h2>
+
+    <div class="details">
+        <div class="detail">
+            <strong>Account Number:</strong>
+            <span th:text="${accountNumber}"></span>
+        </div>
+
+        <div class="detail">
+            <strong>Account Type:</strong>
+            <span th:text="${accountType}"></span>
+        </div>
+    </div>
+
+    <h2>Edit Profile</h2>
+
+    <form action="/account/update" method="post">
+
+        <label for="accountName">Account Holder Name</label>
+        <input
+            type="text"
+            id="accountName"
+            name="accountName"
+            maxlength="60"
+            required
+            th:value="${accountName}">
+
+        <label for="mobile">Mobile Number</label>
+        <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            minlength="10"
+            inputmode="numeric"
+            required
+            th:value="${mobile}">
+
+        <button type="submit">Save Changes</button>
+
+        <a class="back" href="/">Back to ATM</a>
+    </form>
+
+</div>
+</body>
+</html>
