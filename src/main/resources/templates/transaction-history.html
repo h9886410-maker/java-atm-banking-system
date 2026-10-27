@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transaction History</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef3f9;
+            margin: 0;
+            padding: 30px 15px;
+            color: #17365d;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px #00000012;
+        }
+
+        h1 { color: #17447c; }
+
+        .transaction {
+            background: #f4f7fb;
+            padding: 15px;
+            margin: 12px 0;
+            border-left: 4px solid #17447c;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            background: #fff4d6;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            background: #17447c;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Transaction History</h1>
+    <p>View your recent ATM transactions below.</p>
+
+    <p th:if="${#lists.isEmpty(transactions)}" class="empty">
+        No transactions recorded yet. Make a deposit or withdrawal first.
+    </p>
+
+    <div th:each="transaction : ${transactions}" class="transaction">
+        <span th:text="${transaction}">Transaction details</span>
+    </div>
+
+    <a href="/">Back to ATM</a>
+</div>
+</body>
+</html>
